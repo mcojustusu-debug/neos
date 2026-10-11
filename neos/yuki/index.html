@@ -1,13 +1,412 @@
+
 <!DOCTYPE html>
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>N.E.O.S. | Echoe.03</title>
+  <meta name="theme-color" content="#ffffff">
+  <title>N.E.O.S. | Echoe.02</title>
+
+  <style>
+    /* ===== 基本設定 ===== */
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: #ffffff;
+      color: #171717;
+      font-family:
+        "Helvetica Neue",
+        "Yu Gothic",
+        "Hiragino Kaku Gothic ProN",
+        Meiryo,
+        sans-serif;
+      line-height: 1.8;
+      letter-spacing: 0.04em;
+    }
+
+    .page {
+      width: 100%;
+      max-width: 720px;
+      min-height: 100vh;
+      margin: 0 auto;
+      padding: 64px 24px 48px;
+    }
+
+    /* ===== ヘッダー表示 ===== */
+    .status {
+      margin-bottom: 32px;
+      color: #666666;
+      font-family: monospace;
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-align: center;
+    }
+
+    .status::before {
+      content: "";
+      display: inline-block;
+      width: 6px;
+      height: 6px;
+      margin-right: 8px;
+      border-radius: 50%;
+      background: #222222;
+      vertical-align: middle;
+    }
+
+    .rule {
+      width: 100%;
+      height: 1px;
+      margin: 0 0 36px;
+      background: #222222;
+    }
+
+    /* ===== メインメッセージ ===== */
+    .message {
+      margin: 0 auto 20px;
+      font-size: clamp(20px, 5vw, 28px);
+      font-weight: 600;
+      line-height: 1.7;
+      letter-spacing: 0.03em;
+      text-align: center;
+      overflow-wrap: anywhere;
+    }
+
+    .description {
+      margin: 0 auto 36px;
+      color: #444444;
+      font-size: 14px;
+      line-height: 2;
+      text-align: center;
+    }
+
+    /* ===== OPEN MESSAGE ボタン ===== */
+    .open-button {
+      display: block;
+      width: 100%;
+      max-width: 320px;
+      min-height: 58px;
+      margin: 0 auto;
+      padding: 16px 20px;
+      border: 1px solid #222222;
+      border-radius: 0;
+      background: #ffffff;
+      color: #171717;
+      font-family: monospace, sans-serif;
+      font-size: 13px;
+      letter-spacing: 0.12em;
+      cursor: pointer;
+      transition:
+        background 0.2s ease,
+        color 0.2s ease;
+    }
+
+    .open-button:hover,
+    .open-button:focus-visible {
+      background: #171717;
+      color: #ffffff;
+    }
+
+    .open-button:focus-visible {
+      outline: 2px solid #777777;
+      outline-offset: 4px;
+    }
+
+    .button-mark {
+      display: inline-block;
+      margin-left: 12px;
+      transition: transform 0.2s ease;
+    }
+
+    .open-button[aria-expanded="true"] .button-mark {
+      transform: rotate(90deg);
+    }
+
+    /* ===== 展開される後書き ===== */
+    .afterword {
+      margin-top: 48px;
+      padding-top: 28px;
+      border-top: 1px solid #222222;
+      animation: appear 0.35s ease;
+    }
+
+    .afterword[hidden] {
+      display: none;
+    }
+
+    .message-id {
+      margin: 0 0 28px;
+      color: #666666;
+      font-family: monospace;
+      font-size: 12px;
+      letter-spacing: 0.14em;
+    }
+
+    .afterword h2 {
+      margin: 0 0 24px;
+      font-size: 23px;
+      line-height: 1.6;
+      font-weight: 700;
+    }
+
+    .afterword p {
+      margin: 0 0 22px;
+      font-size: 15px;
+      line-height: 2.1;
+      overflow-wrap: anywhere;
+    }
+
+    .signature {
+      margin-top: 36px !important;
+      text-align: right;
+    }
+
+    .bottom-rule {
+      height: 1px;
+      margin-top: 40px;
+      background: #222222;
+    }
+
+    .footer {
+      margin-top: 20px;
+      color: #777777;
+      font-family: monospace;
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      text-align: center;
+    }
+
+    @keyframes appear {
+      from {
+        opacity: 0;
+        transform: translateY(8px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* ===== スマートフォン表示 ===== */
+    @media (max-width: 480px) {
+      .page {
+        padding: 44px 22px 36px;
+      }
+
+      .status {
+        margin-bottom: 28px;
+        font-size: 10px;
+      }
+
+      .rule {
+        margin-bottom: 30px;
+      }
+
+      .message {
+        font-size: 23px;
+      }
+
+      .description {
+        font-size: 13px;
+      }
+
+      .afterword {
+        margin-top: 36px;
+        padding-top: 24px;
+      }
+
+      .afterword h2 {
+        font-size: 21px;
+      }
+
+      .afterword p {
+        font-size: 14px;
+      }
+    }
+
+    /* 動きを控えたい端末への配慮 */
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+    
+/* 後書き内の強調表現 */
+.big-emphasis {
+  margin: 32px 0;
+  font-size: clamp(25px, 6vw, 36px);
+  font-weight: 900;
+  line-height: 1.6;
+  letter-spacing: 0.01em;
+  overflow-wrap: anywhere;
+}
+
+.small-emphasis {
+  margin-top: -18px !important;
+  font-size: 11px !important;
+  color: #777777;
+  text-align: right;
+}
+
+.hint {
+  margin-top: 48px;
+  padding: 24px 0;
+  border-top: 1px solid #aaaaaa;
+  border-bottom: 1px solid #aaaaaa;
+}
+
+.hint-title {
+  font-weight: 700;
+  font-size: 17px !important;
+}
+
+    .message-id a {
+  color: inherit;
+  text-decoration: none;
+  border-bottom: 1px solid #999999;
+}
+
+.message-id a:hover {
+  color: #666666;
+  border-bottom-color: #222222;
+}
+    css
+.signal-message {
+  margin-top: 48px;
+  padding-top: 24px;
+  border-top: 1px solid #aaaaaa;
+  font-family: monospace;
+  font-size: 13px;
+  line-height: 2.2;
+  color: #555555;
+  text-align: left;
+}
+
+.signal-line {
+  letter-spacing: 0.04em;
+}
+
+  </style>
 </head>
+
 <body>
-  <h1>N.E.O.S.</h1>
-  <p>あなたは"エコー"の受信に成功しました。</p>
-  <p>メッセージを読み、観測を続けてください。</p>
+  <main class="page">
+
+    <header class="status">
+      TRANSMISSION STATUS : RECEIVED
+    </header>
+
+    <div class="rule"></div>
+
+    <section aria-labelledby="main-message">
+      <h1 class="message" id="main-message">
+        あなたは"エコー"の受信に成功しました。
+      </h1>
+
+      <p class="description">
+        メッセージを読み、観測を続けてください。
+      </p>
+
+      <button
+        class="open-button"
+        id="open-button"
+        type="button"
+        aria-expanded="false"
+        aria-controls="afterword"
+      >
+        [ OPEN MESSAGE ]
+        <span class="button-mark" aria-hidden="true">→</span>
+      </button>
+    </section>
+
+    <section
+      class="afterword"
+      id="afterword"
+      aria-labelledby="message-title"
+    
+html
+<section
+  class="afterword"
+  id="afterword"
+  aria-labelledby="message-title"
+  hidden
+>
+  <p class="message-id">
+    TRANSMISSION ID :
+    <a
+      href="https://x.com/frozen_ice2309"
+      target="_blank"
+      rel="noopener noreferrer"
+    >@frozen_ice2309</a>
+  </p>
+
+  <h2 id="message-title">【Echoe.03】</h2>
+
+  <div class="afterword-content">
+    <p>
+      櫻木真乃さんで参加させていただきました、ゆきと申します。<br>
+      お誘いくださったむちおさん、お手に取ってくださった皆様、ありがとうございました！
+    </p>
+
+    <p>
+      円環/螺旋、良いライブでしたね。<br>
+      周年キービジュアルからまず度肝を抜かれました。普段ほわほわしている彼女達もあのように険しい顔をすることがあるのでしょうか......
+    </p>
+
+    <p>
+      円環の先に抜け出した彼女たちにも、幸あらんことを。
+    </p>
+  </div>
+
+  <p class="signature">
+    ゆき
+  </p>
+
+  <div class="signal-message">
+    <p>......</p>
+    <p class="signal-line">オーバー　オーバー</p>
+    <p class="signal-line">誰か、私の声が、聞こえますか。</p>
+  </div>
+
+  <div class="bottom-rule"></div>
+  <footer class="footer">END OF TRANSMISSION</footer>
+</section>
+
+    <footer class="footer">
+      N.E.O.S. 
+    </footer>
+
+  </main>
+
+  <script>
+    const button = document.getElementById("open-button");
+    const afterword = document.getElementById("afterword");
+
+    button.addEventListener("click", () => {
+      const isOpen = button.getAttribute("aria-expanded") === "true";
+
+      button.setAttribute("aria-expanded", String(!isOpen));
+      afterword.hidden = isOpen;
+
+      if (isOpen) {
+        button.innerHTML =
+          '[ OPEN MESSAGE ] <span class="button-mark" aria-hidden="true">→</span>';
+      } else {
+        button.innerHTML =
+          '[ CLOSE MESSAGE ] <span class="button-mark" aria-hidden="true">→</span>';
+
+        afterword.scrollIntoView({
+          behavior: "smooth",
+          block: "start"
+        });
+      }
+    });
+  </script>
 </body>
 </html>
